@@ -2,7 +2,13 @@ const {Parser} = require('../src/Parser');
 
 const parser = new Parser();
 
-const program = `"567"`;
+const program = `
+    /**
+    *   Documentation comment
+    */
+
+    46
+`;
 
 const ast = parser.parse(program);
 

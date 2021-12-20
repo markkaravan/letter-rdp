@@ -1,3 +1,29 @@
+const Spec = [
+  //-------------------------------
+  // WHITESPACE
+  [/^\s+/, null],
+
+  //-------------------------------
+  // COMMENTS
+
+  // Skip single line
+  [/^\/\/.*/, null],
+
+  // Skip multi-line
+  [/^\/*[\s\S]*?\*\//, null],
+
+  //-------------------------------
+  // NUMBERS
+  [/^\d+/, "NUMBER"],
+
+  //-------------------------------
+  // STRINGS
+  [/^"[^"]*"/, "STRING"],
+  [/^'[^']*'/, "STRING"]
+];
+
+
+
 class Tokenizer {
   init(string) {
     this._string = string;
@@ -19,32 +45,34 @@ class Tokenizer {
 
     const string = this._string.slice(this._cursor);
 
-    // Numbers:
-    if (!isNaN(string[0])) {
-      let number = '';
-      while (!isNaN(Number(string[this._cursor]))) {
-        number += string[this._cursor++];
+    for (const [regexp, tokenType] of Spec) {
+      const tokenValue = this._match(regexp, string);
+
+      // Can't match this rule, continue
+      if (tokenValue == null) {
+        continue;
       }
+
+      // Should skip token, e.g. whitespace.
+      if (tokenType == null) {
+        return this.getNextToken();
+      }
+
       return {
-        type: 'NUMBER',
-        value: number,
+        type: tokenType,
+        value: tokenValue,
       };
     }
+    throw new SyntaxError(`Unexpected token: "${string[0]}"`);
+  }
 
-    // String:
-    if (string[0] === '"') {
-      let s = '';
-      do {
-         s += string[this._cursor++];
-      } while (string[this._cursor] !== '"' && !this.isEOF());
-      s += this._cursor++;
-      return {
-        type: 'STRING',
-        value: s,
-      };
+  _match(regexp, string) {
+    const matched = regexp.exec(string);
+    if (matched == null) {
+      return null;
     }
-
-    return null;
+    this._cursor += matched[0].length;
+    return matched[0]
   }
 }
 
