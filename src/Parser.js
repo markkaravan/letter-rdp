@@ -123,13 +123,111 @@ class Parser {
 
   /**
   * Expression
-  *    : Literal
+  *    : AdditiveExpression
   *    ;
   */
   Expression() {
-    return this.Literal();
+    return this.AdditiveExpression();
   }
 
+  /**
+  * AdditiveExpression
+  *   : MultiplicativeExpression
+  *   | AdditiveExpression ADDITIVE_OPERATOR Literal
+  *   ;
+  */
+  AdditiveExpression() {
+    let left = this.MultiplicativeExpression();
+
+    while (this._lookahead.type === 'ADDITIVE_OPERATOR') {
+      // Operator: +, -
+      const operator = this._eat('ADDITIVE_OPERATOR').value;
+
+      const right = this.MultiplicativeExpression();
+
+      left = {
+        type: 'BinaryExpression',
+        operator,
+        left,
+        right,
+      };
+    }
+
+    return left;
+  }
+
+  /**
+  * MultiplicativeExpression
+  *   : PrimaryExpression
+  *   | MultiplicativeExpression MULTIPLICATIVE_OPERATOR PrimaryExpression
+  *   ;
+  */
+  MultiplicativeExpression() {
+    let left = this.PrimaryExpression();
+
+    while (this._lookahead.type === 'MULTIPLICATIVE_OPERATOR') {
+      // Operator: *, /
+      const operator = this._eat('MULTIPLICATIVE_OPERATOR').value;
+
+      const right = this.PrimaryExpression();
+
+      left = {
+        type: 'BinaryExpression',
+        operator,
+        left,
+        right,
+      };
+    }
+    return left;
+  }
+
+  _BinaryExpression() {
+    let left = this.PrimaryExpression();
+
+    while (this._lookahead.type === 'MULTIPLICATIVE_OPERATOR') {
+      // Operator: *, /
+      const operator = this._eat('MULTIPLICATIVE_OPERATOR').value;
+
+      const right = this.PrimaryExpression();
+
+      left = {
+        type: 'BinaryExpression',
+        operator,
+        left,
+        right,
+      };
+    }
+    return left;
+  }
+
+  /**
+  * PrimaryExpression
+  *    : Literal
+  *    | ParenthesizedExpression
+  *    ;
+  */
+  PrimaryExpression() {
+    switch (this._lookahead.type) {
+      case '(':
+        return this.ParenthesizedExpression();
+        break;
+      default:
+        return this.Literal();
+        break;
+    }
+  }
+
+  /**
+  * ParenthesizedExpression
+  *   : '(' Expression ')'
+  *   ;
+  */
+  ParenthesizedExpression() {
+    this._eat('(');
+    const expression = this.Expression();
+    this._eat(')');
+    return expression;
+  }
 
   /**
   * Literal

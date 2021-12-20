@@ -9,13 +9,14 @@ const tests = [
   require('./statement-list-test.js'),
   require('./block-test.js'),
   require('./empty-statement-test.js'),
+  require('./math-test.js'),
 ];
 
 const parser = new Parser();
 
 function exec() {
   const program = `
-;
+1 + 2 * 3;
   `;
 
   const ast = parser.parse(program);
@@ -24,7 +25,7 @@ function exec() {
 }
 
 // Manual test
-exec();
+// exec();
 
 /**
 *   Test function
@@ -35,6 +36,5 @@ function test(program, expected) {
 }
 
 // Run all tests
-//tests.forEach(testRun => testRun(test));
-
+tests.forEach(testRun => testRun(test));
 console.log("All assertions passed");
