@@ -15,7 +15,8 @@ const parser = new Parser();
 
 function exec() {
   const program = `
-;
+    42;
+    10;
   `;
 
   const ast = parser.parse(program);
@@ -36,5 +37,4 @@ function test(program, expected) {
 
 // Run all tests
 //tests.forEach(testRun => testRun(test));
-
 console.log("All assertions passed");
