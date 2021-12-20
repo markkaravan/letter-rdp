@@ -6,20 +6,16 @@ const assert = require('assert');
 */
 const tests = [
   require('./literals-test.js'),
-  require('./statement-list-test.js')
+  require('./statement-list-test.js'),
+  require('./block-test.js'),
+  require('./empty-statement-test.js'),
 ];
 
 const parser = new Parser();
 
 function exec() {
   const program = `
-      /**
-      *   Documentation comment
-      */
-
-      "hello";
-
-      69;
+;
   `;
 
   const ast = parser.parse(program);
@@ -28,7 +24,7 @@ function exec() {
 }
 
 // Manual test
-//exec();
+exec();
 
 /**
 *   Test function
@@ -39,6 +35,6 @@ function test(program, expected) {
 }
 
 // Run all tests
-tests.forEach(testRun => testRun(test));
+//tests.forEach(testRun => testRun(test));
 
 console.log("All assertions passed");
