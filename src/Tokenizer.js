@@ -24,6 +24,8 @@ const Spec = [
   //-------------------------------
   // KEYWORDS
   [/^\blet\b/, "let"],
+  [/^\bif\b/, "if"],
+  [/^\belse\b/, "else"],
 
 
   //-------------------------------
@@ -44,6 +46,13 @@ const Spec = [
   // MATH OPERATORS
   [/^[+\-]/, 'ADDITIVE_OPERATOR'],
   [/^[*\/]/, 'MULTIPLICATIVE_OPERATOR'],
+
+
+  //-------------------------------
+  // RELATIONAL OPERATORS: >, >=, <, <=
+  [/^[><]=?/, "RELATIONAL_OPERATOR"],
+
+
 
   //-------------------------------
   // STRINGS
