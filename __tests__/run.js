@@ -10,13 +10,16 @@ const tests = [
   require('./block-test.js'),
   require('./empty-statement-test.js'),
   require('./math-test.js'),
+  require('./assignment-test.js'),
 ];
 
 const parser = new Parser();
 
 function exec() {
   const program = `
-1 + 2 * 3;
+
+    x += 10;
+
   `;
 
   const ast = parser.parse(program);
