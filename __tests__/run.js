@@ -14,6 +14,8 @@ const tests = [
   require('./variable-test.js'),
   require('./if-test.js'),
   require('./relational-test.js'),
+  require('./equality-test.js'),
+  require('./logical-test.js'),
 ];
 
 const parser = new Parser();
@@ -21,7 +23,7 @@ const parser = new Parser();
 function exec() {
   const program = `
 
-    x + 5 > 10;
+    x > 5 || y < 10;
 
   `;
 
@@ -31,7 +33,7 @@ function exec() {
 }
 
 // Manual test
-exec();
+// exec();
 
 /**
 *   Test function
@@ -42,5 +44,5 @@ function test(program, expected) {
 }
 
 // Run all tests
-// tests.forEach(testRun => testRun(test));
-// console.log("All assertions passed");
+tests.forEach(testRun => testRun(test));
+console.log("All assertions passed");
