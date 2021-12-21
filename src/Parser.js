@@ -255,15 +255,6 @@ class Parser {
   }
 
   /**
-  * LeftHandSideExpression
-  *   : Identifier
-  *   ;
-  */
-  LeftHandSideExpression() {
-    return this.Identifier();
-  }
-
-  /**
   * Identifier
   *   : IDENTIFIER
   *   ;
@@ -388,13 +379,13 @@ class Parser {
 
   /**
   * MultiplicativeExpression
-  *   : PrimaryExpression
-  *   | MultiplicativeExpression MULTIPLICATIVE_OPERATOR PrimaryExpression
+  *   : UnaryExpression
+  *   | MultiplicativeExpression MULTIPLICATIVE_OPERATOR UnaryExpression
   *   ;
   */
   MultiplicativeExpression() {
     return this._BinaryExpression(
-      'PrimaryExpression',
+      'UnaryExpression',
       'MULTIPLICATIVE_OPERATOR'
     );
   }
@@ -438,10 +429,48 @@ class Parser {
   }
 
   /**
+  * UnaryExpression
+  *    : LeftHandSideExpression
+  *    : ADDITIVE_OPERATOR UnaryExpression
+  *    | LOGICAL_NOT UnaryExpression
+  *    ;
+  */
+  UnaryExpression() {
+    let operator;
+    switch (this._lookahead.type) {
+      case 'ADDITIVE_OPERATOR':
+        operator = this._eat('ADDITIVE_OPERATOR').value;
+        break;
+      case 'LOGICAL_NOT':
+        operator = this._eat('LOGICAL_NOT').value;
+        break;
+    }
+    if (operator != null) {
+      return {
+        type: 'UnaryExpression',
+        operator,
+        argument: this.UnaryExpression(),
+      };
+    }
+    return this.LeftHandSideExpression();
+  }
+
+
+  /**
+  * LeftHandSideExpression
+  *   : Identifier
+  *   ;
+  */
+  LeftHandSideExpression() {
+    return this.PrimaryExpression();
+  }
+
+
+  /**
   * PrimaryExpression
   *    : Literal
-  *    : LeftHandSideExpression
-  *    | ParenthesizedExpression
+  *    : ParenthesizedExpression
+  *    | LeftHandSideExpression
   *    ;
   */
   PrimaryExpression() {
@@ -451,6 +480,9 @@ class Parser {
     switch (this._lookahead.type) {
       case '(':
         return this.ParenthesizedExpression();
+        break;
+      case 'IDENTIFIER':
+        return this.Identifier();
         break;
       default:
         return this.LeftHandSideExpression();
