@@ -11,6 +11,7 @@ const tests = [
   require('./empty-statement-test.js'),
   require('./math-test.js'),
   require('./assignment-test.js'),
+  require('./variable-test.js'),
 ];
 
 const parser = new Parser();
@@ -18,7 +19,17 @@ const parser = new Parser();
 function exec() {
   const program = `
 
-    x += 10;
+    let y;
+
+    let a, b;
+
+    let c, d = 10;
+
+    let x = 42;
+
+    let foo = bar = 10;
+
+    r = 10;
 
   `;
 
@@ -28,7 +39,7 @@ function exec() {
 }
 
 // Manual test
-// exec();
+exec();
 
 /**
 *   Test function
@@ -39,5 +50,5 @@ function test(program, expected) {
 }
 
 // Run all tests
-tests.forEach(testRun => testRun(test));
-console.log("All assertions passed");
+// tests.forEach(testRun => testRun(test));
+// console.log("All assertions passed");
