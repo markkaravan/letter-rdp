@@ -858,9 +858,7 @@ class Parser {
         return this.NewExpression();
         break;
       default:
-        // TODO SyntaxError
-        // throw new SyntaxError(`Unexpected primary expression.`);
-        return this.LeftHandSideExpression();
+        throw new SyntaxError(`Unexpected primary expression.`);
         break;
     }
   }
