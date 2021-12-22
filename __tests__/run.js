@@ -21,6 +21,7 @@ const tests = [
   require('./do-while-test.js'),
   require('./for-test.js'),
   require('./function-test.js'),
+  require('./member-test.js'),
 ];
 
 const parser = new Parser();
@@ -28,21 +29,9 @@ const parser = new Parser();
 function exec() {
   const program = `
 
-    // while (x > 10) {
-    //   x -= 1;
-    // }
-
-    // do {
-    //   x -= 1;
-    // } while (x > 10);
-
-    // for (;;) {
-    //   x += 1;
-    // }
-
-    def empty(x, y) {
-
-    }
+    // a.b;
+    // a[b];
+    a.b.c['d'];
 
   `;
 
