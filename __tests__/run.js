@@ -22,6 +22,7 @@ const tests = [
   require('./for-test.js'),
   require('./function-test.js'),
   require('./member-test.js'),
+  require('./call-test.js'),
 ];
 
 const parser = new Parser();
@@ -29,9 +30,11 @@ const parser = new Parser();
 function exec() {
   const program = `
 
-    // a.b;
-    // a[b];
-    a.b.c['d'];
+      //square();
+
+      //square(2, 3);
+      //
+      square(a=2, b=3);
 
   `;
 
@@ -41,7 +44,7 @@ function exec() {
 }
 
 // Manual test
-exec();
+// exec();
 
 /**
 *   Test function
@@ -52,5 +55,5 @@ function test(program, expected) {
 }
 
 // Run all tests
-// tests.forEach(testRun => testRun(test));
-// console.log("All assertions passed");
+tests.forEach(testRun => testRun(test));
+console.log("All assertions passed");
