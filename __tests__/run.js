@@ -20,6 +20,7 @@ const tests = [
   require('./while-test.js'),
   require('./do-while-test.js'),
   require('./for-test.js'),
+  require('./function-test.js'),
 ];
 
 const parser = new Parser();
@@ -35,8 +36,12 @@ function exec() {
     //   x -= 1;
     // } while (x > 10);
 
-    for (;;) {
-      x += 1;
+    // for (;;) {
+    //   x += 1;
+    // }
+
+    def empty(x, y) {
+
     }
 
   `;
@@ -47,7 +52,7 @@ function exec() {
 }
 
 // Manual test
-// exec();
+exec();
 
 /**
 *   Test function
@@ -58,5 +63,5 @@ function test(program, expected) {
 }
 
 // Run all tests
-tests.forEach(testRun => testRun(test));
-console.log("All assertions passed");
+// tests.forEach(testRun => testRun(test));
+// console.log("All assertions passed");
