@@ -1,5 +1,5 @@
 # Letter Recursive Descent Parser
-Based on [Eva VM course](https://www.dmitrysoshnikov.education/p/parser-from-scratch) by [Dmitry Soshnikov](https://www.dmitrysoshnikov.education/).
+Based on [Essentials of Parsing course](https://www.dmitrysoshnikov.education/p/parser-from-scratch) by [Dmitry Soshnikov](https://www.dmitrysoshnikov.education/).
 
 Parses the Letter syntax and outputs a typed AST in json format
 
